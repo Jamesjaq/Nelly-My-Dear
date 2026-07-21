@@ -170,7 +170,7 @@
             inset: 0;
             opacity: 0;
             transition: opacity 2.8s var(--ease-quiet);
-            will-change: opacity, transform;
+            will-change: opacity;
         }
         .reel-frame.active {
             opacity: 1;
@@ -179,9 +179,14 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transform: scale(1.08);
             will-change: transform;
             transition: transform 16s linear;
+        }
+        @media (pointer: coarse) {
+            .reel-frame img {
+                transition: none;
+                transform: scale(1);
+            }
         }
         .reel-frame.active img {
             transform: scale(1.3);
@@ -1008,12 +1013,13 @@
     </div>
 
     <script>
+        const isMobile = window.innerWidth <= 768 || window.matchMedia('(pointer: coarse)').matches;
+
         // ============================================================
         //  1. CURSOR TRAIL — HEARTS
         // ============================================================
         (function heartCursor() {
-            const isTouch = window.matchMedia('(pointer: coarse)').matches;
-            if (isTouch) return;
+            if (isMobile) return;
             const canvas = document.getElementById('cursor-canvas');
             const ctx = canvas.getContext('2d');
             let dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -1056,7 +1062,7 @@
                         rotation: Math.random() * 360,
                     });
                 }
-                if (particles.length > 300) particles.splice(0, particles.length - 300);
+                if (particles.length > (isMobile ? 100 : 300)) particles.splice(0, particles.length - (isMobile ? 100 : 300));
             });
 
             function drawHeart(ctx, x, y, size, rotation) {
@@ -1112,6 +1118,7 @@
         // ============================================================
         (function floatingHearts() {
             const container = document.getElementById('hearts-bg');
+            const interval = isMobile ? 2000 : 500;
             setInterval(() => {
                 const heart = document.createElement('div');
                 heart.className = 'heart-float';
@@ -1141,22 +1148,26 @@
                     if (i === idx) {
                         f.classList.add('active');
                         const img = f.querySelector('img');
-                        img.style.transition = 'none';
-                        img.style.transform = 'scale(1.08)';
-                        requestAnimationFrame(() => {
-                            img.style.transition = 'transform 16s linear';
-                            img.style.transform = 'scale(1.3)';
-                        });
+                        if (!isMobile) {
+                            img.style.transition = 'none';
+                            img.style.transform = 'scale(1.08)';
+                            requestAnimationFrame(() => {
+                                img.style.transition = 'transform 16s linear';
+                                img.style.transform = 'scale(1.3)';
+                            });
+                        }
                     } else {
                         f.classList.remove('active');
                     }
                 });
             }
 
-            frames.forEach(f => {
-                const img = f.querySelector('img');
-                img.style.transition = 'transform 16s linear';
-            });
+            if (!isMobile) {
+                frames.forEach(f => {
+                    const img = f.querySelector('img');
+                    img.style.transition = 'transform 16s linear';
+                });
+            }
 
             show(0);
 
@@ -1287,7 +1298,7 @@
             const originX = x || Wc / 2;
             const originY = y || Hc / 2;
 
-            for (let i = 0; i < 150; i++) {
+            for (let i = 0; i < (isMobile ? 50 : 150); i++) {
                 const angle = Math.random() * 2 * Math.PI;
                 const velocity = Math.random() * 14 + 4;
                 confettiPieces.push({
@@ -1390,7 +1401,7 @@
             const rect = surpriseBtn.getBoundingClientRect();
             createConfettiBurst(rect.left + rect.width / 2, rect.top + rect.height / 2);
             setTimeout(() => {
-                for (let i = 0; i < 4; i++) {
+                for (let i = 0; i < (isMobile ? 1 : 4); i++) {
                     setTimeout(() => {
                         createConfettiBurst(
                             Wc * (0.1 + Math.random() * 0.8),
@@ -1401,7 +1412,7 @@
             }, 300);
 
             // Heart explosion
-            for (let j = 0; j < 60; j++) {
+            for (let j = 0; j < (isMobile ? 20 : 60); j++) {
                 const heart = document.createElement('div');
                 heart.innerHTML = '❤';
                 heart.style.position = 'fixed';
