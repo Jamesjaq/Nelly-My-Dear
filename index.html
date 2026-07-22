@@ -170,26 +170,44 @@
             inset: 0;
             opacity: 0;
             transition: opacity 2.8s var(--ease-quiet);
-            will-change: opacity;
+            background: #21171a;
+            overflow: hidden;
+        }
+        .reel-frame::before {
+            content: none;
+            position: absolute;
+            inset: -32px;
+            background-image: var(--hero-image);
+            background-position: center;
+            background-size: cover;
+            filter: blur(24px) brightness(0.62) saturate(1.1);
+            transform: scale(1.08);
         }
         .reel-frame.active {
             opacity: 1;
         }
+        .reel-frame.active::before {
+            content: '';
+        }
         .reel-frame img {
+            position: relative;
+            z-index: 1;
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            will-change: transform;
-            transition: transform 16s linear;
+            object-fit: contain;
+            object-position: center;
+            filter: drop-shadow(0 0 22px rgba(0, 0, 0, 0.3));
         }
         @media (pointer: coarse) {
+            .reel-frame::before {
+                inset: -18px;
+                filter: blur(12px) brightness(0.65) saturate(1.05);
+            }
             .reel-frame img {
                 transition: none;
                 transform: scale(1);
+                filter: none;
             }
-        }
-        .reel-frame.active img {
-            transform: scale(1.3);
         }
         .hero-overlay {
             position: absolute;
@@ -505,6 +523,24 @@
             transform: translateY(-10px) rotate(-1deg);
             box-shadow: 0 20px 40px rgba(230, 57, 70, 0.12);
         }
+        .photo-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        .photo-card {
+            text-align: center;
+        }
+        .photo-caption {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            font-style: italic;
+            color: var(--text-soft);
+            margin-top: 8px;
+        }
+        @media (min-width: 769px) {
+            .photo-grid .photo-card:last-child {
+                grid-column: 2;
+            }
+        }
 
         /* ===== SURPRISE OVERLAY ===== */
         #surprise-overlay {
@@ -736,6 +772,9 @@
             .gallery-grid {
                 grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             }
+            .photo-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
             .gallery-item {
                 height: 200px;
             }
@@ -845,6 +884,48 @@
             <div class="reel-frame">
                 <img src="nl/IMG-20260721-WA0061.jpg" alt="Nelly" loading="lazy" decoding="async" />
             </div>
+            <div class="reel-frame">
+                <img src="nl/IMG-20260721-WA0062.jpg" alt="Nelly" loading="lazy" decoding="async" />
+            </div>
+            <div class="reel-frame">
+                <img src="nl2/IMG-20260722-WA0056.jpg" alt="Nelly" loading="lazy" decoding="async" />
+            </div>
+            <div class="reel-frame">
+                <img src="nl2/IMG-20260722-WA0058.jpg" alt="Nelly" loading="lazy" decoding="async" />
+            </div>
+            <div class="reel-frame">
+                <img src="nl2/IMG-20260722-WA0059.jpg" alt="Nelly" loading="lazy" decoding="async" />
+            </div>
+            <div class="reel-frame">
+                <img src="nl2/IMG-20260722-WA0060.jpg" alt="Nelly" loading="lazy" decoding="async" />
+            </div>
+            <div class="reel-frame">
+                <img src="nl2/IMG-20260722-WA0061.jpg" alt="Nelly" loading="lazy" decoding="async" />
+            </div>
+            <div class="reel-frame">
+                <img src="nl2/IMG-20260722-WA0062.jpg" alt="Nelly" loading="lazy" decoding="async" />
+            </div>
+            <div class="reel-frame">
+                <img src="nl2/IMG-20260722-WA0063.jpg" alt="Nelly" loading="lazy" decoding="async" />
+            </div>
+            <div class="reel-frame">
+                <img src="nl2/IMG-20260722-WA0064.jpg" alt="Nelly" loading="lazy" decoding="async" />
+            </div>
+            <div class="reel-frame">
+                <img src="nl2/IMG-20260722-WA0065.jpg" alt="Nelly" loading="lazy" decoding="async" />
+            </div>
+            <div class="reel-frame">
+                <img src="nl2/IMG-20260722-WA0066.jpg" alt="Nelly" loading="lazy" decoding="async" />
+            </div>
+            <div class="reel-frame">
+                <img src="nl2/IMG-20260722-WA0067.jpg" alt="Nelly" loading="lazy" decoding="async" />
+            </div>
+            <div class="reel-frame">
+                <img src="nl2/IMG-20260722-WA0068.jpg" alt="Nelly" loading="lazy" decoding="async" />
+            </div>
+            <div class="reel-frame">
+                <img src="nl2/IMG-20260722-WA0069.jpg" alt="Nelly" loading="lazy" decoding="async" />
+            </div>
         </div>
         <div class="hero-overlay"></div>
         <div class="hero-progress">
@@ -946,30 +1027,82 @@
         <h2 class="section-title">Every Photo of <span class="gold-text">You</span></h2>
         <p class="section-sub">Each one a treasure. Each one proof that you're the most beautiful person I've ever known.</p>
 
-        <div class="gallery-grid reveal-stagger" style="grid-template-columns: repeat(3, 1fr);">
-            <div style="text-align:center;">
+        <div class="gallery-grid photo-grid reveal-stagger">
+            <div class="photo-card">
                 <img src="nl/IMG-20260721-WA0057.jpg" class="gallery-item" alt="Nelly" loading="lazy" decoding="async" />
-                <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-soft);margin-top:8px;font-size:1rem;">The moment I knew</p>
+                <p class="photo-caption">The moment I knew</p>
             </div>
-            <div style="text-align:center;">
+            <div class="photo-card">
                 <img src="nl/IMG-20260721-WA0058.jpg" class="gallery-item" alt="Nelly" loading="lazy" decoding="async" />
-                <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-soft);margin-top:8px;font-size:1rem;">Your smile lights up my world</p>
+                <p class="photo-caption">Your smile lights up my world</p>
             </div>
-            <div style="text-align:center;">
+            <div class="photo-card">
                 <img src="nl/IMG-20260721-WA0059.jpg" class="gallery-item" alt="Nelly" loading="lazy" decoding="async" />
-                <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-soft);margin-top:8px;font-size:1rem;">Beautiful beyond words</p>
+                <p class="photo-caption">Beautiful beyond words</p>
             </div>
-            <div style="text-align:center;">
+            <div class="photo-card">
                 <img src="nl/IMG-20260721-WA0060.jpg" class="gallery-item" alt="Nelly" loading="lazy" decoding="async" />
-                <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-soft);margin-top:8px;font-size:1rem;">Everything I ever needed</p>
+                <p class="photo-caption">Everything I ever needed</p>
             </div>
-            <div style="text-align:center;">
+            <div class="photo-card">
                 <img src="nl/IMG-20260721-WA0061.jpg" class="gallery-item" alt="Nelly" loading="lazy" decoding="async" />
-                <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-soft);margin-top:8px;font-size:1rem;">My favorite view</p>
+                <p class="photo-caption">My favorite view</p>
             </div>
-            <div style="text-align:center;">
+            <div class="photo-card">
                 <img src="nl/IMG-20260721-WA0062.jpg" class="gallery-item" alt="Nelly" loading="lazy" decoding="async" />
-                <p style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-soft);margin-top:8px;font-size:1rem;">Forever and always</p>
+                <p class="photo-caption">Forever and always</p>
+            </div>
+            <div class="photo-card">
+                <img src="nl2/IMG-20260722-WA0056.jpg" class="gallery-item" alt="Nelly" loading="lazy" decoding="async" />
+                <p class="photo-caption">Another reason to smile</p>
+            </div>
+            <div class="photo-card">
+                <img src="nl2/IMG-20260722-WA0058.jpg" class="gallery-item" alt="Nelly" loading="lazy" decoding="async" />
+                <p class="photo-caption">The beauty in my days</p>
+            </div>
+            <div class="photo-card">
+                <img src="nl2/IMG-20260722-WA0059.jpg" class="gallery-item" alt="Nelly" loading="lazy" decoding="async" />
+                <p class="photo-caption">A smile I will always treasure</p>
+            </div>
+            <div class="photo-card">
+                <img src="nl2/IMG-20260722-WA0060.jpg" class="gallery-item" alt="Nelly" loading="lazy" decoding="async" />
+                <p class="photo-caption">My beautiful forever</p>
+            </div>
+            <div class="photo-card">
+                <img src="nl2/IMG-20260722-WA0061.jpg" class="gallery-item" alt="Nelly" loading="lazy" decoding="async" />
+                <p class="photo-caption">The one my heart chose</p>
+            </div>
+            <div class="photo-card">
+                <img src="nl2/IMG-20260722-WA0062.jpg" class="gallery-item" alt="Nelly" loading="lazy" decoding="async" />
+                <p class="photo-caption">You make every day brighter</p>
+            </div>
+            <div class="photo-card">
+                <img src="nl2/IMG-20260722-WA0063.jpg" class="gallery-item" alt="Nelly" loading="lazy" decoding="async" />
+                <p class="photo-caption">My sweetest thought</p>
+            </div>
+            <div class="photo-card">
+                <img src="nl2/IMG-20260722-WA0064.jpg" class="gallery-item" alt="Nelly" loading="lazy" decoding="async" />
+                <p class="photo-caption">Love looks beautiful on you</p>
+            </div>
+            <div class="photo-card">
+                <img src="nl2/IMG-20260722-WA0065.jpg" class="gallery-item" alt="Nelly" loading="lazy" decoding="async" />
+                <p class="photo-caption">The warmth in my heart</p>
+            </div>
+            <div class="photo-card">
+                <img src="nl2/IMG-20260722-WA0066.jpg" class="gallery-item" alt="Nelly" loading="lazy" decoding="async" />
+                <p class="photo-caption">My happiness, captured</p>
+            </div>
+            <div class="photo-card">
+                <img src="nl2/IMG-20260722-WA0067.jpg" class="gallery-item" alt="Nelly" loading="lazy" decoding="async" />
+                <p class="photo-caption">Always lovely, always you</p>
+            </div>
+            <div class="photo-card">
+                <img src="nl2/IMG-20260722-WA0068.jpg" class="gallery-item" alt="Nelly" loading="lazy" decoding="async" />
+                <p class="photo-caption">The face I could never forget</p>
+            </div>
+            <div class="photo-card">
+                <img src="nl2/IMG-20260722-WA0069.jpg" class="gallery-item" alt="Nelly" loading="lazy" decoding="async" />
+                <p class="photo-caption">Every tomorrow, with you</p>
             </div>
         </div>
     </section>
@@ -1130,7 +1263,7 @@
                 heart.style.animationDuration = (6 + Math.random() * 6) + 's';
                 container.appendChild(heart);
                 setTimeout(() => heart.remove(), 14000);
-            }, 500);
+            }, interval);
         })();
 
         // ============================================================
@@ -1143,29 +1276,18 @@
                 timer = 0;
             const duration = 7000;
 
+            frames.forEach(frame => {
+                const image = frame.querySelector('img');
+                frame.style.setProperty('--hero-image', `url("${image.src}")`);
+            });
+
             function show(idx) {
                 frames.forEach((f, i) => {
                     if (i === idx) {
                         f.classList.add('active');
-                        const img = f.querySelector('img');
-                        if (!isMobile) {
-                            img.style.transition = 'none';
-                            img.style.transform = 'scale(1.08)';
-                            requestAnimationFrame(() => {
-                                img.style.transition = 'transform 16s linear';
-                                img.style.transform = 'scale(1.3)';
-                            });
-                        }
                     } else {
                         f.classList.remove('active');
                     }
-                });
-            }
-
-            if (!isMobile) {
-                frames.forEach(f => {
-                    const img = f.querySelector('img');
-                    img.style.transition = 'transform 16s linear';
                 });
             }
 
