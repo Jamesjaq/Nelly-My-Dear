@@ -860,7 +860,7 @@
     <div class="hearts-bg" id="hearts-bg"></div>
 
     <!-- MUSIC BTN -->
-    <audio id="bg-music" loop>
+    <audio id="bg-music" autoplay loop preload="auto" playsinline>
         <source src="music/nakupenda-ulivyo.mp3" type="audio/mpeg">
     </audio>
     <button id="music-btn" aria-label="Toggle Music">🎵</button>
@@ -1608,17 +1608,34 @@
         // ============================================================
         const musicBtn = document.getElementById('music-btn');
         const music = document.getElementById('bg-music');
-        let isPlaying = false;
+        const startEvents = ['pointerdown', 'touchstart', 'keydown'];
 
-        musicBtn.addEventListener('click', () => {
-            if (isPlaying) {
+        function updateMusicButton() {
+            musicBtn.innerText = music.paused ? '🎵' : '🔇';
+        }
+
+        function removeAutoplayFallback() {
+            startEvents.forEach(event => document.removeEventListener(event, startMusic));
+        }
+
+        function startMusic(event) {
+            if (event?.target === musicBtn || event?.target?.closest?.('#music-btn')) return;
+            music.play().then(removeAutoplayFallback).catch(() => {});
+        }
+
+        music.addEventListener('play', updateMusicButton);
+        music.addEventListener('pause', updateMusicButton);
+
+        music.play().then(removeAutoplayFallback).catch(() => {
+            startEvents.forEach(event => document.addEventListener(event, startMusic, { passive: true }));
+        });
+
+        musicBtn.addEventListener('click', async () => {
+            if (!music.paused) {
                 music.pause();
-                musicBtn.innerText = '🎵';
             } else {
-                music.play().catch(() => {});
-                musicBtn.innerText = '🔇';
+                await music.play().catch(() => {});
             }
-            isPlaying = !isPlaying;
         });
 
         // ============================================================
