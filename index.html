@@ -1273,7 +1273,7 @@
             const frames = document.querySelectorAll('.reel-frame');
             const progress = document.getElementById('reel-progress');
             let current = 0,
-                timer = 0;
+                startedAt;
             const duration = 7000;
 
             frames.forEach(frame => {
@@ -1293,12 +1293,13 @@
 
             show(0);
 
-            function tick() {
-                timer += 50;
-                const pct = Math.min(100, (timer / duration) * 100);
+            function tick(timestamp) {
+                startedAt ??= timestamp;
+                const elapsed = timestamp - startedAt;
+                const pct = Math.min(100, (elapsed / duration) * 100);
                 progress.style.width = pct + '%';
-                if (timer >= duration) {
-                    timer = 0;
+                if (elapsed >= duration) {
+                    startedAt = timestamp;
                     current = (current + 1) % frames.length;
                     show(current);
                 }
